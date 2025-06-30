@@ -17,6 +17,7 @@ struct EmojiMemoryGameView: View {
 //            cardAdjuster
             }
             .padding()
+
         }
     
     var cards: some View{
@@ -25,7 +26,11 @@ struct EmojiMemoryGameView: View {
                   CardView(card)
                       .aspectRatio(2/3, contentMode: .fit)
                       .padding(4)
+                      .onTapGesture {
+                          viewModel.choose(card)
+                      }
               }
+            
 //            ForEach(viewModel.cards.indices, id:\.self){ index in
 //                CardView(viewModel.cards[index])
 //                    .aspectRatio(2/3, contentMode: .fit)
@@ -88,6 +93,7 @@ struct CardView: View{
                 .opacity(card.isFaceUp ? 0 : 1)
             
         }
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
 //        .onTapGesture {
 //            isFaceUp.toggle()
 //        }
