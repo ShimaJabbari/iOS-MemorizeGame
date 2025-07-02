@@ -38,7 +38,6 @@ struct EmojiMemoryGameView: View {
                   CardView(card)
                     .aspectRatio(aspectRatio, contentMode: .fit)
                       .padding(spacing)
-                      .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                       .onTapGesture {
                           withAnimation (.easeInOut(duration: 1)){
                               viewModel.choose(card)
@@ -84,10 +83,12 @@ struct EmojiMemoryGameView: View {
     
 }
 
-
-private func scoreChange(causedBy card: MemoryGame<String>.Card)->Int{
-    return 0
-}
+////@State private var lastScoreChange = (0, causedByCardId: "")
+//
+//private func scoreChange(causedBy card: MemoryGame<String>.Card)->Int{
+//    return 0
+//}
+//
 
 
 
