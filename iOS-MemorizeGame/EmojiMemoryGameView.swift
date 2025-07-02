@@ -11,11 +11,20 @@ struct EmojiMemoryGameView: View {
         VStack{
             ScrollView{
                 cards
-                    .animation(.default, value: viewModel.cards)
+//                    .animation(.default, value: viewModel.cards)
             }
-            Button("Shuffle"){
-                viewModel.shuffle()
+            HStack{
+                Text("Score: \(viewModel.score)")
+                    .animation(nil)
+                Spacer()
+                Button("Shuffle"){
+                    withAnimation{
+                        viewModel.shuffle()
+                    }
+                }
+                
             }
+
 //            Spacer()
 //            cardAdjuster
             }
@@ -29,10 +38,14 @@ struct EmojiMemoryGameView: View {
                   CardView(card)
                     .aspectRatio(aspectRatio, contentMode: .fit)
                       .padding(spacing)
+                      .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                       .onTapGesture {
-                          viewModel.choose(card)
+                          withAnimation (.easeInOut(duration: 1)){
+                              viewModel.choose(card)
+                          }
                       }
               }
+
             
 //            ForEach(viewModel.cards.indices, id:\.self){ index in
 //                CardView(viewModel.cards[index])
@@ -69,6 +82,11 @@ struct EmojiMemoryGameView: View {
 //        } .imageScale(.large)
 //    }
     
+}
+
+
+private func scoreChange(causedBy card: MemoryGame<String>.Card)->Int{
+    return 0
 }
 
 

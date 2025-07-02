@@ -3,6 +3,7 @@ import Foundation
 struct MemoryGame<CardContent> where CardContent: Equatable{
     
     private(set) var cards: Array<Card>
+    private(set) var score = 0
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent){
         cards = []
@@ -57,7 +58,16 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                         if cards[chosenIndex].content == cards[potentialMatchedIndex].content{
                             cards[chosenIndex].isMatched = true
                             cards[potentialMatchedIndex].isMatched = true
+                            score+=2
+                        }else{
+                            if(cards[chosenIndex].hasBeenSeen){
+                                score-=1
+                            }
+                            if(cards[potentialMatchedIndex].hasBeenSeen){
+                                score-=1
+                            }
                         }
+                     
                         indexOfTheOneAndOnlyFaceUpCard = nil
                     }else{
                             for index in cards.indices{
@@ -95,8 +105,15 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
 //        }
 //        
         
-        var isFaceUp: Bool = true
+        var isFaceUp: Bool = false{
+            didSet{
+                if oldValue && !isFaceUp{
+                    hasBeenSeen = true
+                }
+            }
+        }
         var isMatched: Bool = false
+        var hasBeenSeen = false
         let content: CardContent
         
         //added this because of the identifiable
